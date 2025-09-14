@@ -21,7 +21,7 @@ su - parseruser
 
 #### 1.1. Обновление системы
 ```bash
-sudo apt update && sudo apt upgrade -y && sudo apt install git chromium-chromedriver mysql-server -y
+sudo apt update && sudo apt upgrade -y && sudo apt install git chromium-chromedriver chromium mysql-server -y
 ```
 
 #### 1.2 Скачиваем и запускаем установочный скрипт nvm
