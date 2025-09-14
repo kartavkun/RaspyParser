@@ -61,42 +61,44 @@ COLLATE utf8mb4_unicode_ci;
 
 USE schedule_db;
 
-CREATE TABLE IF NOT EXISTS \`groups\` (
-    \`id\` INT AUTO_INCREMENT PRIMARY KEY,
-    \`group_name\` VARCHAR(100) NOT NULL UNIQUE,
-    \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS `groups` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `group_name` VARCHAR(100) NOT NULL UNIQUE,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS \`teachers\` (
-    \`id\` INT AUTO_INCREMENT PRIMARY KEY,
-    \`teacher_name\` VARCHAR(255) NOT NULL UNIQUE,
-    \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS `teachers` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `teacher_name` VARCHAR(255) NOT NULL UNIQUE,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS \`schedule\` (
-    \`id\` INT AUTO_INCREMENT PRIMARY KEY,
-    \`group_id\` INT NOT NULL,
-    \`schedule_date\` DATE NOT NULL,
-    \`lesson_number\` VARCHAR(50) NOT NULL,
-    \`subject\` VARCHAR(255),
-    \`room\` VARCHAR(100),
-    \`teacher\` VARCHAR(255),
-    \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (\`group_id\`) REFERENCES \`groups\`(\`id\`) ON DELETE CASCADE,
-    UNIQUE KEY \`unique_lesson\` (\`group_id\`, \`schedule_date\`, \`lesson_number\`)
+CREATE TABLE IF NOT EXISTS `schedule` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `group_id` INT NOT NULL,
+    `schedule_date` DATE NOT NULL,
+    `lesson_number` VARCHAR(50) NOT NULL,
+    `subject` VARCHAR(255),
+    `room` VARCHAR(100),
+    `teacher` VARCHAR(255),
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `last_updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (`group_id`) REFERENCES `groups`(`id`) ON DELETE CASCADE,
+    UNIQUE KEY `unique_lesson` (`group_id`, `schedule_date`, `lesson_number`)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS \`teacher_schedule\` (
-    \`id\` INT AUTO_INCREMENT PRIMARY KEY,
-    \`teacher_id\` INT NOT NULL,
-    \`schedule_date\` DATE NOT NULL,
-    \`lesson_number\` VARCHAR(50) NOT NULL,
-    \`subject\` VARCHAR(255),
-    \`room\` VARCHAR(100),
-    \`group\` VARCHAR(100),
-    \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (\`teacher_id\`) REFERENCES \`teachers\`(\`id\`) ON DELETE CASCADE,
-    UNIQUE KEY \`unique_teacher_lesson\` (\`teacher_id\`, \`schedule_date\`, \`lesson_number\`)
+CREATE TABLE IF NOT EXISTS `teacher_schedule` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `teacher_id` INT NOT NULL,
+    `schedule_date` DATE NOT NULL,
+    `lesson_number` VARCHAR(50) NOT NULL,
+    `subject` VARCHAR(255),
+    `room` VARCHAR(100),
+    `group` VARCHAR(100),
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `last_updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (`teacher_id`) REFERENCES `teachers`(`id`) ON DELETE CASCADE,
+    UNIQUE KEY `unique_teacher_lesson` (`teacher_id`, `schedule_date`, `lesson_number`)
 ) ENGINE=InnoDB;
 EOF
 ```
